@@ -1,0 +1,114 @@
+{
+  "info": {
+    "_postman_id": "c9a0a0b1-7b21-4a41-9e6b-202610180001",
+    "name": "JSONPlaceholder - GET All Posts",
+    "description": "API testing collection for GET https://jsonplaceholder.typicode.com/posts",
+    "schema": "https://schema.postman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET All Posts",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts"
+          ]
+        },
+        "description": "Retrieve all posts from JSONPlaceholder."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const responseJson = pm.response.json();",
+              "",
+              "// GET_001: Verify HTTP status is 200 OK",
+              "pm.test('GET_001 - Status code is 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// GET_002: Verify JSON response content type",
+              "pm.test('GET_002 - Content-Type is application/json', function () {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "",
+              "// GET_003: Verify exactly 100 posts are returned",
+              "pm.test('GET_003 - Response contains 100 posts', function () {",
+              "    pm.expect(responseJson).to.be.an('array');",
+              "    pm.expect(responseJson).to.have.lengthOf(100);",
+              "});",
+              "",
+              "// GET_004: Verify every post contains userId",
+              "pm.test('GET_004 - Every post contains userId', function () {",
+              "    pm.expect(responseJson).to.be.an('array');",
+              "    responseJson.forEach(function (post) {",
+              "        pm.expect(post).to.have.property('userId');",
+              "    });",
+              "});",
+              "",
+              "// GET_005: Verify every post contains id",
+              "pm.test('GET_005 - Every post contains id', function () {",
+              "    pm.expect(responseJson).to.be.an('array');",
+              "    responseJson.forEach(function (post) {",
+              "        pm.expect(post).to.have.property('id');",
+              "    });",
+              "});",
+              "",
+              "// GET_006: Verify title is not null or empty",
+              "pm.test('GET_006 - Every post title is not null or empty', function () {",
+              "    pm.expect(responseJson).to.be.an('array');",
+              "    responseJson.forEach(function (post) {",
+              "        pm.expect(post.title, 'title for post ' + post.id).to.be.a('string').and.not.empty;",
+              "    });",
+              "});",
+              "",
+              "// GET_007: Verify body is not null or empty",
+              "pm.test('GET_007 - Every post body is not null or empty', function () {",
+              "    pm.expect(responseJson).to.be.an('array');",
+              "    responseJson.forEach(function (post) {",
+              "        pm.expect(post.body, 'body for post ' + post.id).to.be.a('string').and.not.empty;",
+              "    });",
+              "});",
+              "",
+              "// GET_008: Verify response time is under 2 seconds",
+              "pm.test('GET_008 - Response time is under 2000 ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});",
+              "",
+              "// GET_009: Verify status code only",
+              "pm.test('GET_009 - Status code is exactly 200', function () {",
+              "    pm.expect(pm.response.code).to.eql(200);",
+              "});",
+              "",
+              "// GET_010: Verify valid array structure and required fields",
+              "pm.test('GET_010 - Response is a valid array of post objects', function () {",
+              "    pm.expect(responseJson).to.be.an('array');",
+              "    responseJson.forEach(function (post) {",
+              "        pm.expect(post).to.be.an('object');",
+              "        pm.expect(post).to.have.all.keys('userId', 'id', 'title', 'body');",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ],
+      "response": []
+    }
+  ]
+}
